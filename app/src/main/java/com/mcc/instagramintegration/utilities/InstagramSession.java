@@ -1,4 +1,4 @@
-package com.mcc.instagramintegration;
+package com.mcc.instagramintegration.utilities;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -11,6 +11,7 @@ public class InstagramSession {
     private static final String API_USERNAME = "username";
     private static final String API_ID = "id";
     private static final String API_NAME = "name";
+
     private static final String API_ACCESS_TOKEN = "access_token";
 
     public InstagramSession(Context context) {

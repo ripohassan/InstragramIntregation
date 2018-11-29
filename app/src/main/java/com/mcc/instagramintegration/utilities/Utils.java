@@ -1,4 +1,4 @@
-package com.mcc.instagramintegration;
+package com.mcc.instagramintegration.utilities;
 
 import java.io.BufferedReader;
 import java.io.IOException;

@@ -1,15 +1,14 @@
-package com.mcc.instagramintegration;
+package com.mcc.instagramintegration.activity;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.Layout;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,13 +19,28 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.mcc.instagramintegration.Api.HttpParams;
+import com.mcc.instagramintegration.Api.RectrofitClient;
+import com.mcc.instagramintegration.R;
+import com.mcc.instagramintegration.adapter.PostAdapter;
+import com.mcc.instagramintegration.model.Datum;
+import com.mcc.instagramintegration.model.InstaModel;
+import com.mcc.instagramintegration.utilities.AppConfig;
+import com.mcc.instagramintegration.utilities.InstagramApp;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private InstagramApp mApp;
     private Button btnConnect, btnView;
     private LinearLayout llAfterLoginView;
+    private ArrayList<Datum> arrayList;
+    private PostAdapter postAdapter;
     private HashMap<String, String> userInfoHashmap = new HashMap<String, String>();
 
     private Handler handler = new Handler(new Handler.Callback() {
@@ -50,10 +64,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         initView();
         initVars();
         initListener();
+
+        getUserPics();
     }
 
 
     private void initVars() {
+        arrayList = new ArrayList<>();
+
+
+
     }
 
     private void initView() {
@@ -106,6 +126,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btnView:
                 displayPersonInfo();
                 break;
+
             default:
                 break;
 
@@ -114,27 +135,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void displayPersonInfo() {
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+     /*   AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Profile Info");
-
         LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = layoutInflater.inflate(R.layout.profile_view, null);
-        builder.setView(view);
+        builder.setView(view);*/
 
-        ImageView imvProfilePic = view.findViewById(R.id.imvProfilePic);
-        TextView tvName = view.findViewById(R.id.tvNofUserName);
-        TextView tvBio = view.findViewById(R.id.tvNoofBio);
-        TextView tvNoOfFollwers = view.findViewById(R.id.tvNoofFollower);
-        TextView tvNoOfFollowing = view.findViewById(R.id.tvNoofFollowing);
-        Glide.with(getApplicationContext())
-                .load(userInfoHashmap.get(InstagramApp.TAG_PROFILE_PICTURE))
-                .into(imvProfilePic);
+        ImageView imvProfilePic = findViewById(R.id.imvProfilePic);
+        TextView tvName = findViewById(R.id.tvNofUserName);
+        TextView tvBio = findViewById(R.id.tvNoofBio);
+        TextView tvNoOfFollowers = findViewById(R.id.tvNoofFollower);
+        TextView tvNoOfFollowing = findViewById(R.id.tvNoofFollowing);
+
+
+        RecyclerView recyclerView = findViewById(R.id.rv_view);
+        postAdapter = new PostAdapter(this,arrayList);
+        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this, 2);
+        recyclerView.setLayoutManager(mLayoutManager);
+        recyclerView.setAdapter(postAdapter);
+
+
+
+        Glide.with(getApplicationContext()).load(userInfoHashmap.get(InstagramApp.TAG_PROFILE_PICTURE)).into(imvProfilePic);
         tvBio.setText(userInfoHashmap.get(InstagramApp.TAG_BIO));
         tvName.setText(userInfoHashmap.get(InstagramApp.TAG_USERNAME));
         tvNoOfFollowing.setText(userInfoHashmap.get(InstagramApp.TAG_FOLLOWS));
-        tvNoOfFollwers.setText(userInfoHashmap
-                .get(InstagramApp.TAG_FOLLOWED_BY));
-        builder.create().show();
+        tvNoOfFollowers.setText(userInfoHashmap.get(InstagramApp.TAG_FOLLOWED_BY));
+       /* builder.create().show();*/
 
 
     }
@@ -170,4 +197,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             mApp.authorize();
         }
     }
+
+
+    private void getUserPics(){
+        RectrofitClient.getClient().getALLImages(HttpParams.ACCESS_TOKEN).enqueue(new Callback<InstaModel>() {
+            @Override
+            public void onResponse(Call<InstaModel> call, Response<InstaModel> response) {
+             arrayList.clear();
+             arrayList.addAll(response.body().getData());
+            }
+
+            @Override
+            public void onFailure(Call<InstaModel> call, Throwable t) {
+                Log.d("TAG", t.toString());
+            }
+        });
+    }
+
 }

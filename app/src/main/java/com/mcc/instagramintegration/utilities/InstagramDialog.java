@@ -1,4 +1,4 @@
-package com.mcc.instagramintegration;
+package com.mcc.instagramintegration.utilities;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;

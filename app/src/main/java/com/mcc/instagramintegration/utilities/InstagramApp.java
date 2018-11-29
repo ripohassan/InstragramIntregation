@@ -1,4 +1,4 @@
-package com.mcc.instagramintegration;
+package com.mcc.instagramintegration.utilities;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -40,7 +40,9 @@ public class InstagramApp {
     public static String mCallbackUrl = "";
     private static final String AUTH_URL = "https://api.instagram.com/oauth/authorize/";
     private static final String TOKEN_URL = "https://api.instagram.com/oauth/access_token";
+    private static final String MEDIA_URL = "https://api.instagram.com/v1/users/self/access_token";
     private static final String API_URL = "https://api.instagram.com/v1";
+
 
     private static final String TAG = "InstagramAPI";
 
@@ -57,6 +59,7 @@ public class InstagramApp {
     public static final String TAG_FULL_NAME = "full_name";
     public static final String TAG_META = "meta";
     public static final String TAG_CODE = "code";
+    public static final String TAG_POST = "post";
 
     public InstagramApp(Context context, String clientId, String clientSecret,
                         String callbackUrl) {
@@ -112,7 +115,6 @@ public class InstagramApp {
                     urlConnection.setRequestMethod("POST");
                     urlConnection.setDoInput(true);
                     urlConnection.setDoOutput(true);
-                    // urlConnection.connect();
                     OutputStreamWriter writer = new OutputStreamWriter(
                             urlConnection.getOutputStream());
                     writer.write("client_id=" + mClientId + "&client_secret="
@@ -133,7 +135,6 @@ public class InstagramApp {
                             "username");
                     String name = jsonObj.getJSONObject("user").getString(
                             "full_name");
-
                     mSession.storeAccessToken(mAccessToken, id, user, name);
 
                 } catch (Exception ex) {
@@ -178,6 +179,7 @@ public class InstagramApp {
                     userInfo.put(TAG_PROFILE_PICTURE,
                             data_obj.getString(TAG_PROFILE_PICTURE));
 
+
                     userInfo.put(TAG_USERNAME, data_obj.getString(TAG_USERNAME));
 
                     userInfo.put(TAG_BIO, data_obj.getString(TAG_BIO));
@@ -199,6 +201,7 @@ public class InstagramApp {
                     JSONObject meta_obj = jsonObj.getJSONObject(TAG_META);
 
                     userInfo.put(TAG_CODE, meta_obj.getString(TAG_CODE));
+
                 } catch (Exception ex) {
                     what = WHAT_ERROR;
                     ex.printStackTrace();
@@ -227,6 +230,9 @@ public class InstagramApp {
             }
         }
     };
+
+
+
 
     public HashMap<String, String> getUserInfo() {
         return userInfo;
@@ -277,5 +283,8 @@ public class InstagramApp {
         public abstract void onFail(String error);
     }
 
-
 }
+
+
+
+

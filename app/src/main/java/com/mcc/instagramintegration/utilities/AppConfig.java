@@ -1,4 +1,4 @@
-package com.mcc.instagramintegration;
+package com.mcc.instagramintegration.utilities;
 
 public class AppConfig {
     public static final String CLIENT_ID = "fb4c44ec4bd24671a174f99c67954c91";

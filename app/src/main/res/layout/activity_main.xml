@@ -4,29 +4,33 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    tools:context=".activity.MainActivity">
+
     <Button
         android:id="@+id/btnConnect"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Login" />
 
+
     <LinearLayout
+        android:id="@+id/llafterloginView"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="vertical"
-        android:visibility="gone"
-        android:id="@+id/llafterloginView">
+        android:visibility="gone">
+
         <Button
             android:id="@+id/btnView"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="40dp"
             android:layout_marginRight="40dp"
-            android:text="View Information"
-            />
+            android:text="View Information" />
     </LinearLayout>
+    <include layout="@layout/profile_view"
+       />
 
 
 </LinearLayout>
