@@ -29,8 +29,8 @@
             android:layout_marginRight="40dp"
             android:text="View Information" />
     </LinearLayout>
-    <include layout="@layout/profile_view"
-       />
+
+    <include layout="@layout/profile_view" />
 
 
 </LinearLayout>

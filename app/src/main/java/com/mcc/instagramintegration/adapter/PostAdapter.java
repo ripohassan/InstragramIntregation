@@ -13,10 +13,11 @@ import com.mcc.instagramintegration.model.Datum;
 
 import java.util.ArrayList;
 
-public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
+public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
     private Context mContext;
     private ArrayList<Datum> dataList;
+
     public PostAdapter(Context mContext, ArrayList<Datum> dataList) {
         this.mContext = mContext;
         this.dataList = dataList;
@@ -30,7 +31,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-       Glide.with(mContext).load(dataList.get(position).getImages().getStandardResolution().getUrl()).into(holder.ivFoodPic);
+        Glide.with(mContext).load(dataList.get(position).getImages().getStandardResolution().getUrl()).into(holder.ivPostPicture);
     }
 
     @Override
@@ -38,12 +39,13 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
         return dataList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder {
 
-        public ImageView ivFoodPic;
+        public ImageView ivPostPicture;
+
         public ViewHolder(View itemView) {
             super(itemView);
-            ivFoodPic=itemView.findViewById(R.id.iv_post);
+            ivPostPicture = itemView.findViewById(R.id.iv_post);
 
         }
 

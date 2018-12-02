@@ -1,6 +1,5 @@
 package com.mcc.instagramintegration.activity;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Handler;
 import android.os.Message;
@@ -10,7 +9,6 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -71,7 +69,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void initVars() {
         arrayList = new ArrayList<>();
-
 
 
     }
@@ -149,19 +146,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
         RecyclerView recyclerView = findViewById(R.id.rv_view);
-        postAdapter = new PostAdapter(this,arrayList);
+        postAdapter = new PostAdapter(this, arrayList);
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this, 2);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setAdapter(postAdapter);
-
-
-
         Glide.with(getApplicationContext()).load(userInfoHashmap.get(InstagramApp.TAG_PROFILE_PICTURE)).into(imvProfilePic);
         tvBio.setText(userInfoHashmap.get(InstagramApp.TAG_BIO));
         tvName.setText(userInfoHashmap.get(InstagramApp.TAG_USERNAME));
         tvNoOfFollowing.setText(userInfoHashmap.get(InstagramApp.TAG_FOLLOWS));
         tvNoOfFollowers.setText(userInfoHashmap.get(InstagramApp.TAG_FOLLOWED_BY));
-       /* builder.create().show();*/
+        /* builder.create().show();*/
 
 
     }
@@ -199,12 +193,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-    private void getUserPics(){
+    private void getUserPics() {
         RectrofitClient.getClient().getALLImages(HttpParams.ACCESS_TOKEN).enqueue(new Callback<InstaModel>() {
             @Override
             public void onResponse(Call<InstaModel> call, Response<InstaModel> response) {
-             arrayList.clear();
-             arrayList.addAll(response.body().getData());
+                arrayList.clear();
+                arrayList.addAll(response.body().getData());
             }
 
             @Override
